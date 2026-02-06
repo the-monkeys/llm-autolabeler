@@ -38,7 +38,7 @@ export const labelIssue = async (c: Context) => {
 
     const aiResponse = await openrouter.chat.send({
       chatGenerationParams: {
-        model: "mistralai/mistral-small-3.1-24b-instruct:free",
+        model: "meta-llama/llama-3.3-70b-instruct",
         responseFormat: { type: "json_object" }, // Ensure structured output
         messages: [{ role: "user", content: prompt }],
       },
