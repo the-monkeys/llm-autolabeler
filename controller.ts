@@ -1,5 +1,6 @@
 import { Context } from "https://deno.land/x/hono@v4.3.11/mod.ts";
 import { openrouter } from "./config/openrouter.ts";
+import { octokit } from "./config/octokit.ts";
 
 export const labelIssue = async (c: Context) => {
   const payload = await c.req.json();
