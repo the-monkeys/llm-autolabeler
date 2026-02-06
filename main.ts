@@ -1,4 +1,4 @@
-import { Handler, Hono } from "https://deno.land/x/hono/mod.ts";
+import { Hono } from "https://deno.land/x/hono/mod.ts";
 import { OpenRouter } from "npm:@openrouter/sdk";
 import { Octokit } from "npm:@octokit/rest";
 import { createAppAuth } from "npm:@octokit/auth-app";
@@ -19,6 +19,10 @@ const octokit = new Octokit({
     installationId: Deno.env.get("APP_INSTALL_ID"),
   },
 });
+
+app.get("/", c => {
+	return c.json({ status: "healthy" }, 200)
+})
 
 app.post("/webhook/github", async (c) => {
   const payload = await c.req.json();
