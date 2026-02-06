@@ -4,7 +4,7 @@ import { labelIssue } from "./controller.ts";
 export const app = new Hono();
 
 app.get("/", (c) => {
-	return c.json({ status: "healthy" })
-})
+  return c.json({ status: "healthy" });
+});
 
-app.post("/webhook/github", labelIssue)
+app.post("/webhook/github", labelIssue);

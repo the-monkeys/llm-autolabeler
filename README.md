@@ -1,6 +1,7 @@
 ## LLM Autolabeler
 
-This server receives webhook on issue creation and auto labels the issue if not present.
+This server receives webhook on issue creation and auto labels the issue if not
+present.
 
 ## Existing behavior
 
@@ -11,22 +12,20 @@ This server receives webhook on issue creation and auto labels the issue if not 
 - Updates the github issue
 - If label does not exist, creates a label
 
-
 - Add port in env
 - Add secret for verifying webhook
 
-
 Logs
+
 - Add telmetery collector
 
-
 ## Todos
-Env validation before starting application
 
+Env validation before starting application
 
 // POC - JS event queue
 
-
 Create training dataset for label
+
 - Receive feedback on labels applied
 - Save issue title, description and label, and user feedback

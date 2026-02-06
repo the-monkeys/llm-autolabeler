@@ -1,7 +1,9 @@
 import { Octokit } from "npm:@octokit/rest";
 import { createAppAuth } from "npm:@octokit/auth-app";
 
-const privateKey = Deno.readTextFileSync("./mama-monke.2026-02-06.private-key.pem")
+const privateKey = Deno.readTextFileSync(
+  "./mama-monke.2026-02-06.private-key.pem",
+);
 
 export const octokit = new Octokit({
   authStrategy: createAppAuth,
