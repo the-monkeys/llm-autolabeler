@@ -1,2 +1,4 @@
+.PHONY: dev start-lgtm
+
 dev:
-	deno --env-file=.env --allow-net --allow-read --allow-env main.ts
+	nohup deno --env-file=.env --allow-net --allow-read --allow-env server.ts &
