@@ -5,9 +5,9 @@ export const labelIssue = async (c: Context) => {
   const payload = await c.req.json();
   const eventType = c.req.header("x-github-event");
 
-	if (eventType === "ping") {
-		return c.text('Push event received', 200);
-	}
+  if (eventType === "ping") {
+    return c.text("Push event received", 202);
+  }
 
   if (eventType !== "issues" || payload.action !== "opened") {
     return c.json({ message: "Event ignored" }, 200);
@@ -36,9 +36,11 @@ export const labelIssue = async (c: Context) => {
       `;
 
     const aiResponse = await openrouter.chat.send({
-      model: "meta-llama/llama-3.3-70b-instruct",
-      response_format: { type: "json_object" }, // Ensure structured output
-      messages: [{ role: "user", content: prompt }],
+      chatGenerationParams: {
+        model: "meta-llama/llama-3.3-70b-instruct",
+        responseFormat: { type: "json_object" }, // Ensure structured output
+        messages: [{ role: "user", content: prompt }],
+      },
     });
 
     const { label, reason } = JSON.parse(
