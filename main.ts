@@ -1,4 +1,4 @@
-import { Hono } from "https://deno.land/x/hono/mod.ts";
+import { Handler, Hono } from "https://deno.land/x/hono/mod.ts";
 import { OpenRouter } from "npm:@openrouter/sdk";
 import { Octokit } from "npm:@octokit/rest";
 import { createAppAuth } from "npm:@octokit/auth-app";
@@ -88,4 +88,6 @@ app.post("/webhook/github", async (c) => {
   return c.json({ message: "Event ignored" }, 200);
 });
 
-Deno.serve(app.fetch);
+Deno.serve({
+	port: 8008
+}, app.fetch);
