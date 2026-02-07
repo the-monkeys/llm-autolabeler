@@ -1,0 +1,18 @@
+services:
+  app:
+    build:
+      context: .
+      args:
+        - GITHUB_APP_ID=${GITHUB_APP_ID}
+        - APP_INSTALL_ID=${APP_INSTALL_ID}
+        - OPEN_ROUTER_API_KEY=${OPEN_ROUTER_API_KEY}
+        - PORT=${PORT}
+
+    ports:
+      - ${PORT}:${PORT}
+
+    environment:
+      - GITHUB_APP_ID:${GITHUB_APP_ID}
+      - APP_INSTALL_ID:${APP_INSTALL_ID}
+      - OPEN_ROUTER_API_KEY:${OPEN_ROUTER_API_KEY}
+      - PORT:${PORT}
