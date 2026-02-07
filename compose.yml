@@ -2,6 +2,7 @@ services:
   app:
     build:
       context: .
+      dockerfile: Containerfile
       args:
         - GITHUB_APP_ID=${GITHUB_APP_ID}
         - APP_INSTALL_ID=${APP_INSTALL_ID}
