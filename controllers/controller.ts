@@ -1,6 +1,7 @@
 import { Context } from "https://deno.land/x/hono@v4.3.11/mod.ts";
-import { openrouter } from "./config/openrouter.ts";
-import { octokit } from "./config/octokit.ts";
+import { octokit } from "../config/octokit.ts";
+import { sendPrompt } from "../services/openrouter.ts";
+import { addLabelPrompt } from "../prompts/addLabel.ts";
 
 export const labelIssue = async (c: Context) => {
   const payload = await c.req.json();
@@ -22,33 +23,18 @@ export const labelIssue = async (c: Context) => {
   const issueNumber = issue.number;
 
   if (issue.labels && issue.labels.length > 0) {
-    console.log(`Issue #${issueNumber} already has labels. Skipping.`);
     return c.json({ message: "Label exists" }, 200);
   }
 
   try {
-    // 3. Call LLM to pick label and provide reason
-    const prompt = `
-        Analyze this GitHub issue and categorize it into exactly ONE of these labels: 'triage-needed', 'bug', 'feature'.
-        Provide your response in JSON format: {"label": "label-name", "reason": "reason-under-150-chars"}
-        
-        Title: ${issue.title}
-        Body: ${issue.body}
-      `;
+    const prompt = addLabelPrompt(issue.title, issue.body);
 
-    const aiResponse = await openrouter.chat.send({
-      chatGenerationParams: {
-        model: "meta-llama/llama-3.3-70b-instruct",
-        responseFormat: { type: "json_object" }, // Ensure structured output
-        messages: [{ role: "user", content: prompt }],
-      },
-    });
+    const aiResponse = await sendPrompt(prompt);
 
     const { label, reason } = JSON.parse(
-      aiResponse.choices[0].message.content,
+      aiResponse.choices[0].message.content as string,
     );
 
-    // 4 & 5. Apply the label (and create if missing)
     try {
       await octokit.issues.addLabels({
         owner,
