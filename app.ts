@@ -1,6 +1,8 @@
-import { Hono } from "https://deno.land/x/hono/mod.ts";
-import { router } from "./routes.ts";
+import { Hono } from "@hono/hono";
+import { labelIssue } from "./controllers/controller.ts";
 
 export const app = new Hono();
 
-app.route("/", router)
+app.get("/", (c) => {
+  return c.json({ status: "healthy" });
+}).post("/webhook/github", labelIssue);

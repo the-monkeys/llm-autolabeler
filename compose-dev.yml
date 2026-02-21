@@ -1,0 +1,30 @@
+services:
+  app:
+    container_name: llm-autolabeller-dev
+    build:
+      target: dev
+      context: .
+      dockerfile: Containerfile
+      args:
+        - GITHUB_APP_ID=${GITHUB_APP_ID}
+        - APP_INSTALL_ID=${APP_INSTALL_ID}
+        - OPEN_ROUTER_API_KEY=${OPEN_ROUTER_API_KEY}
+        - PORT=${PORT}
+
+    ports:
+      - ${PORT}:${PORT}
+
+    volumes:
+      - .:/app
+
+    environment:
+      - GITHUB_APP_ID:${GITHUB_APP_ID}
+      - APP_INSTALL_ID:${APP_INSTALL_ID}
+      - OPEN_ROUTER_API_KEY:${OPEN_ROUTER_API_KEY}
+      - PORT:${PORT}
+
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:${PORT}"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
