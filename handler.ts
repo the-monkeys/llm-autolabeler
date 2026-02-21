@@ -48,6 +48,13 @@ export async function issuesHandler(ctx: Context) {
         issue_number: issueNumber,
         labels: [label],
       });
+
+			await octokit.issues.createComment({
+        owner,
+        repo,
+        issue_number: issueNumber,
+				body: `Assigned ${label} for reason: ${reason}`
+      })
     } catch (err: any) {
       if (
         err.status === 404 || err.message.includes("Label does not exist")
