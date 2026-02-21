@@ -1,7 +1,8 @@
 services:
   app:
-    container_name: llm-autolabeller
+    container_name: llm-autolabeller-dev
     build:
+      target: dev
       context: .
       dockerfile: Containerfile
       args:
@@ -12,6 +13,9 @@ services:
 
     ports:
       - ${PORT}:${PORT}
+
+    volumes:
+      - .:/app
 
     environment:
       - GITHUB_APP_ID:${GITHUB_APP_ID}

@@ -1,13 +1,4 @@
-FROM denoland/deno:latest AS builder
-
-WORKDIR /app
-COPY . .
-RUN deno install --entrypoint server.ts
-
-# Production stage
-FROM denoland/deno:latest
-WORKDIR /app
-COPY --from=builder /app .
+FROM denoland/deno:alpine AS builder
 
 ARG GITHUB_APP_ID
 ARG APP_INSTALL_ID
@@ -18,5 +9,22 @@ ENV GITHUB_APP_ID=$GITHUB_APP_ID
 ENV APP_INSTALL_ID=$APP_INSTALL_ID
 ENV OPEN_ROUTER_API_KEY=$OPEN_ROUTER_API_KEY
 ENV PORT=$PORT
+
+RUN apk add curl
+
+WORKDIR /app
+COPY . .
+RUN deno install --entrypoint server.ts
+
+FROM builder as dev
+
+WORKDIR /app
+
+CMD ["deno", "--allow-net", "--allow-read", "--allow-env", "--watch", "server.ts"]
+
+# Production stage
+FROM builder as prod 
+
+WORKDIR /app
 
 CMD ["deno", "--allow-net", "--allow-read", "--allow-env", "server.ts"]

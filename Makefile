@@ -6,16 +6,22 @@ ifneq (, $(shell command -v docker 2> /dev/null))
 	CONTAINER_RUNTIME := docker
 endif
 
-.PHONY: dev run-containers run-containers-build logs
+.PHONY: dev prod logs-dev logs down down-dev 
 
 dev:
-	nohup deno --env-file=.env --allow-net --allow-read --allow-env server.ts &
+	$(CONTAINER_RUNTIME) compose --env-file .env -f compose-dev.yml up -d
 
-run-containers:
+logs-dev:
+	$(CONTAINER_RUNTIME) compose -f compose-dev.yml logs -f
+
+prod:
 	$(CONTAINER_RUNTIME) compose --env-file .env -f compose.yml up -d
-
-run-containers-build:
-	$(CONTAINER_RUNTIME) compose --env-file .env -f compose.yml up -d --build
 
 logs:
 	$(CONTAINER_RUNTIME) compose -f compose.yml logs -f
+
+down:
+	$(CONTAINER_RUNTIME) compose -f compose.yml down
+
+down-dev:
+	$(CONTAINER_RUNTIME) compose -f compose-dev.yml down
