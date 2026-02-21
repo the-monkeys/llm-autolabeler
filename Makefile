@@ -6,7 +6,7 @@ ifneq (, $(shell command -v docker 2> /dev/null))
 	CONTAINER_RUNTIME := docker
 endif
 
-.PHONY: dev run-containers run-containers-build down logs
+.PHONY: dev prod logs-dev logs down down-dev 
 
 dev:
 	$(CONTAINER_RUNTIME) compose --env-file .env -f compose-dev.yml up -d
