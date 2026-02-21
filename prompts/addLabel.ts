@@ -4,5 +4,5 @@ Provide your response in JSON format: {"label": "label-name", "reason": "reason-
         
 Title: ${title}
 Body: ${body}
-      `;
+`;
 }

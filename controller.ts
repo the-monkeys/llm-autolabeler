@@ -1,5 +1,5 @@
 import { Context } from "@hono/hono";
-import { issuesHandler, pingHandler } from "../handler.ts";
+import { issuesHandler, pingHandler } from "./handler.ts";
 
 export const labelIssue = (c: Context) => {
   const eventType = c.req.header("x-github-event");
