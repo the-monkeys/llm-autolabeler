@@ -1,5 +1,6 @@
 services:
   app:
+    container_name: llm-autolabeller
     build:
       context: .
       dockerfile: Containerfile
@@ -17,3 +18,9 @@ services:
       - APP_INSTALL_ID:${APP_INSTALL_ID}
       - OPEN_ROUTER_API_KEY:${OPEN_ROUTER_API_KEY}
       - PORT:${PORT}
+
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:${PORT}"]
+      interval: 10s
+      timeout: 5s
+      retries: 3

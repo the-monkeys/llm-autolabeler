@@ -1,11 +1,14 @@
-FROM denoland/deno:latest AS builder
+FROM denoland/deno:alpine AS builder
+
+RUN apk add curl
 
 WORKDIR /app
 COPY . .
 RUN deno install --entrypoint server.ts
 
 # Production stage
-FROM denoland/deno:latest
+FROM builder as prod 
+
 WORKDIR /app
 COPY --from=builder /app .
 
