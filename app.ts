@@ -1,5 +1,5 @@
 import { Hono } from "@hono/hono";
-import { labelIssue } from "./controllers/controller.ts";
+import { labelIssue } from "./controller.ts";
 
 export const app = new Hono();
 
